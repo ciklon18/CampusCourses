@@ -1,0 +1,98 @@
+.formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .form {
+        width: 300px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        text-align: center;
+        flex-direction: column;
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        align-items: center;
+
+        
+        a {
+            display: unset;
+        }
+        h1 {
+            color: #007bff
+        }
+    
+        input[type=text], select {
+            width: 90%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            width: 90%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #45a049;
+            }
+        }
+
+        div {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .inputContainer {
+            margin-bottom: 20px;
+
+            .input {
+                width: 90%;
+                margin-bottom: 10px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                height: 24px;
+            }
+        }
+
+        .button {
+            width: 90%;
+            height: 37px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #0056b3;
+            }
+        }
+
+        .link {
+            margin-top: 10px;
+            text-decoration: none;
+            color: #007bff;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+    }
+    .text {
+        color: #264464;
+    }
+}
