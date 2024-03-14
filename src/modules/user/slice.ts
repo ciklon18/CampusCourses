@@ -1,5 +1,5 @@
 import { Dispatch, createSlice } from "@reduxjs/toolkit";
-import { LoginUserDto, UserDto } from "../../types/types";
+import { LoginUserDto, UserDto, RegisterUserDto } from "../../types/types";
 import axios from "axios";
 import { clearToken, setToken } from "../auth/slice";
 import { AppDispatch } from "../../store/store";
@@ -50,7 +50,6 @@ export const logoutUser = () => async (dispatch: Dispatch) => {
     }
 }
 
-
 export const getUser = async (dispatch: Dispatch) => {
     try {
         const response = await axios.get(
@@ -67,7 +66,21 @@ export const getUser = async (dispatch: Dispatch) => {
     }
 }
 
+export const registerUser = (data: RegisterUserDto) => async (dispatch: AppDispatch) => {
+    try {
+        const response = await axios.post(
+            "https://camp-courses.api.kreosoft.space/registration",
+            data
+        );
+        console.log("Зарегистрирован", response.data)
+        dispatch(setToken(response.data.token))
+        return response.data
 
+    } catch (error) {
+        console.error("Ошибка при регистрации", error);
+        throw error
+    }
+}
 
 const userSlice = createSlice({
     name: "user",
