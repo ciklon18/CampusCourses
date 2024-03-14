@@ -17,16 +17,17 @@ export interface RegisterUserDto {
 //     password: string;
 // }
 
-// interface ProfileResponse {
-//     fullName: string;
-//     email: string;
-//     birthDate: string;
-// }
+export interface ProfileDto {
+    fullName: string;
+    email: string;
+    birthDate: string;
+}
 
 export interface UserDto {
     email: string,
     password: string,
 }
+
 
 
 
