@@ -17,14 +17,18 @@ export const LinksList = () => {
         isAdmin: false,
     });
     const fetchRoles = async () => {
-        const response = await dispatch(getUserRoles())
-        setRoles(
-            {
-                isTeacher: response.isTeacher,
-                isStudent: response.isStudent,
-                isAdmin: response.isAdmin,
-            }
-        )
+        try{
+            const response = await dispatch(getUserRoles())
+            setRoles(
+                {
+                    isTeacher: response.isTeacher,
+                    isStudent: response.isStudent,
+                    isAdmin: response.isAdmin,
+                }
+            )
+        } catch (error) {
+            console.error("Ошибка при получении ролей", error);
+        }        
     }
 
     useEffect(() => {

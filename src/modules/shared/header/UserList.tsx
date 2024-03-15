@@ -18,8 +18,13 @@ export const UserList = () => {
 
     const [displayText, setDisplayText] = useState("Профиль");
     const fetchUser = async () => {
-        const response = await dispatch(getUser)
-        setDisplayText(response.email);
+        try{
+            const response = await dispatch(getUser)
+            setDisplayText(response.email);
+        } catch (error) {
+            setDisplayText("Профиль");
+        }
+        
     }
 
     useEffect(() => {

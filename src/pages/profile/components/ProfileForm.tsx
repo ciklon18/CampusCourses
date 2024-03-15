@@ -5,6 +5,20 @@ import { Form } from "react-router-dom";
 import { getUser, updateUser } from "src/modules/user/slice";
 import { AppDispatch } from "src/store/store";
 import style from "./profile.module.scss";
+import * as yup from 'yup';
+
+const schema = yup.object().shape({
+    fullName: yup.string()
+        .required("ФИО обязательно для заполнения")
+        .min(2, "ФИО должно содержать минимум 2 символа")
+        .max(50, "ФИО должно содержать максимум 50 символов")
+        .matches(/^[A-Za-zА-Яа-яЁё\s]+$/, "ФИО должно содержать только буквы"),
+    birthDate: yup.date()
+        .required("Дата рождения обязательна для заполнения")
+        .max(new Date(), "Дата рождения не может быть больше текущей даты")
+        .min(new Date('1900-01-01'), "Дата рождения не может быть меньше 1900 года")
+});
+
 
 export default function useProfileForm() {
     const dispatch: AppDispatch = useDispatch()
@@ -33,17 +47,19 @@ export default function useProfileForm() {
         fetchUser()
     }, []);
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        if (formData.fullName === "") {
-            setFormError({ ...formError, fullName: "Поле не может быть пустым" })
-            return
+    const handleSubmit = async () => {
+        try {
+            await schema.validate(formData, { abortEarly: false })
+            dispatch(await updateUser(formData))
+        } catch (error) {
+            if (error instanceof yup.ValidationError) {
+                const newErrors = {} as any;
+                error.inner.forEach((e: any) => {
+                    newErrors[e.path] = e.message;
+                });
+                setFormError(newErrors)
+            }
         }
-        if (formData.birthDate === ""){
-            setFormError({ ...formError, birthDate: "Поле не может быть пустым" })
-            return
-        }
-        dispatch(await updateUser(formData))
     }
 
     return (
@@ -105,7 +121,7 @@ export default function useProfileForm() {
                         className={style.form__button}
                     >
                         Обновить
-                    </Button>
+                </Button>   
             </Grid>
             </Form>
         </Container>

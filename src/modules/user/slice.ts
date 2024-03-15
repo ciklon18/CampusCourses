@@ -60,15 +60,13 @@ export const getUser = async (dispatch: Dispatch) => {
                 },
             }
         );
-        if (response.status === 401) {
+        if (response.status === 401 || response.status === 403 || response.status === 400) {
             dispatch(clearToken());
-            return { error: "Ошибка авторизации" }
+            return response.data
         }
-        dispatch(setUser(response.data))
         return response.data
     } catch (error) {
         console.error("Ошибка при получении данных пользователя", error)
-        throw error
     }
 }
 
@@ -83,15 +81,20 @@ export const updateUser = async (data: ProfileDto) => async (dispatch: Dispatch)
                 },
             }
         );
+        if (response.status === 401) {
+            dispatch(clearToken());
+            return { error: "Ошибка авторизации" }
+        } else if (response.status === 400) {
+            return { error: "Ошибка валидации" }
+        }
         dispatch(setUser(response.data))
         return response.data
     } catch (error) {
         console.error("Ошибка при обновлении данных пользователя", error)
-        throw error
     }
 }
 
-export const registerUser = (data: RegisterUserDto) => async (dispatch: AppDispatch) => {
+export const registerUser = (data: RegisterUserDto) => async (dispatch: Dispatch) => {
     try {
         const response = await axios.post(
             "https://camp-courses.api.kreosoft.space/registration",
@@ -103,11 +106,10 @@ export const registerUser = (data: RegisterUserDto) => async (dispatch: AppDispa
 
     } catch (error) {
         console.error("Ошибка при регистрации", error);
-        throw error
     }
 }
 
-export const getUserRoles = () => async () => {
+export const getUserRoles = () => async (dispatch: Dispatch) => {
     try {
         const response = await axios.get(
             "https://camp-courses.api.kreosoft.space/roles",
@@ -117,11 +119,15 @@ export const getUserRoles = () => async () => {
                 },
             }
         );
+        if (response.status === 401 || response.status === 403 || response.status === 400) {
+            dispatch(clearToken())
+        }
         console.log("Роли получены", response.data)
         return response.data
 
     } catch (error) {
-        console.error("Ошибка при регистрации", error);
+        console.error("Ошибка при получении ролей", error);
+        dispatch(clearToken())
         throw error
     }
 }
