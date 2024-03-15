@@ -28,6 +28,11 @@ export interface UserDto {
     password: string,
 }
 
+export interface UserRoles {
+    isTeacher: boolean,
+    isStudent: boolean,
+    isAdmin: boolean,
+}
 
 
 

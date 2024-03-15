@@ -107,6 +107,27 @@ export const registerUser = (data: RegisterUserDto) => async (dispatch: AppDispa
     }
 }
 
+export const getUserRoles = () => async () => {
+    try {
+        const response = await axios.get(
+            "https://camp-courses.api.kreosoft.space/roles",
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+        console.log("Роли получены", response.data)
+        return response.data
+
+    } catch (error) {
+        console.error("Ошибка при регистрации", error);
+        throw error
+    }
+}
+
+
+
 const userSlice = createSlice({
     name: "user",
     initialState,
