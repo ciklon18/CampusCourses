@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { routes } from "src/common/const/routes";
 import { isAuthenticated } from "src/modules/auth/slice";
 import style from "./Header.module.scss";
-import { logoutUser } from "src/modules/user/slice"
+import {   getUser, logoutUser } from "src/modules/user/slice"
 import { AppDispatch } from "src/store/store";
+import { useEffect, useState } from "react";
 
 
 
@@ -14,16 +15,31 @@ export const UserList = () => {
     const handleLogout = () => {
         dispatch(logoutUser());
       };
+
+    const [displayText, setDisplayText] = useState("Профиль");
+    const fetchUser = async () => {
+        const response = await dispatch(getUser)
+        setDisplayText(response.email);
+    }
+
+    useEffect(() => {
+        fetchUser()
+    }, []);
+
+
     const isAuth = useSelector(isAuthenticated);
-    return (!isAuth) ? (
-        <div className={style.links}>
-            <Link to={routes.registration()} className={style.link}>Регистрация</Link>
-            <Link to={routes.login()} className={style.link}>Вход</Link>
-        </div>
-    ) :(
-        <div className={style.links}>
-            <Link to={routes.profile()} className={style.link}>Профиль</Link>
-            <button onClick={handleLogout} className={style.button}>Выйти</button>
-        </div>
-    )
+    if (!isAuth) {
+        return (
+            <div className={style.links}>
+                <Link to={routes.registration()} className={style.link}>Регистрация</Link>
+                <Link to={routes.login()} className={style.link}>Вход</Link>
+            </div>
+        );
+    }
+        return (
+            <div className={style.links}>
+                <Link to={routes.profile()} className={style.link}>{displayText}</Link>
+                <Link to={routes.root()} className={style.link} onClick={handleLogout}>Выйти</Link>
+            </div>
+        );
 }

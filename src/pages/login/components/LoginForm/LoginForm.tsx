@@ -15,12 +15,7 @@ export const LoginForm = () => {
         email: "",
         password: "",
       })
-    
-    // const [errors, setErrors] = useState({
-    // email: "",
-    // password: "",
-    // })
-    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({

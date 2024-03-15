@@ -4,7 +4,7 @@ import axios from "axios";
 import { clearToken, setToken } from "../auth/slice";
 import { AppDispatch } from "../../store/store";
 
-interface UserState {
+export interface UserState {
     user: UserDto,
     error: string,
 }
@@ -60,6 +60,10 @@ export const getUser = async (dispatch: Dispatch) => {
                 },
             }
         );
+        if (response.status === 401) {
+            dispatch(clearToken());
+            return { error: "Ошибка авторизации" }
+        }
         dispatch(setUser(response.data))
         return response.data
     } catch (error) {
@@ -113,6 +117,7 @@ const userSlice = createSlice({
     },
 })
 
+export const getUserState = (state: { user: UserState }) => state.user.user;
 
 export const { setUser } = userSlice.actions;
 export default userSlice.reducer;
