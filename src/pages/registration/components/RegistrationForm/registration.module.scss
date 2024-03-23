@@ -4,7 +4,7 @@
     align-items: center;
 
     .form {
-        width: 300px;
+        width: 450px;
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -15,36 +15,21 @@
         gap: 10px;
         margin-bottom: 10px;
         align-items: center;
-
-        
-        a {
-            display: unset;
-        }
-        h1 {
-            color: #007bff
-        }
+        margin-top: 30px;
     
-        .inputContainer {
-            margin-bottom: 20px;
-
-            .input {
-                width: 90%;
-                margin-bottom: 10px;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                height: 24px;
-            }
+        .form__input {
+            margin-bottom: 25px;
+            width: 100%;
+            padding: 10px;
+            height: 24px;
         }
 
-        .button {
-            width: 90%;
-            height: 37px;
+        .form__button {
+            margin-top: 20px;
+            width: 100%;
+            height: 45px;
             padding: 10px;
-            border: none;
-            border-radius: 5px;
             background-color: #007bff;
-            color: #fff;
             cursor: pointer;
 
             &:hover {
@@ -53,16 +38,25 @@
         }
 
         .link {
-            margin-top: 10px;
             text-decoration: none;
             color: #007bff;
+            margin-left: 3px;
+
             &:hover {
                 text-decoration: underline;
             }
         }
-
+        .bottom_link{
+            display: flex;
+            flex-direction: row;
+            color: #264464;
+        }
     }
     .text {
         color: #264464;
+    }
+    
+    .error {
+        color: #ff0000;
     }
 }
