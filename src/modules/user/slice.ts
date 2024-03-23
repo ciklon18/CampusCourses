@@ -1,5 +1,5 @@
 import { Dispatch, createSlice } from "@reduxjs/toolkit";
-import { LoginUserDto, UserDto, RegisterUserDto, ProfileDto } from "../../types/types";
+import { LoginUserDto, UserDto, RegisterUserDto, ProfileDto, UserRoles } from "../../types/types";
 import axios from "axios";
 import { clearToken, setToken } from "../auth/slice";
 import { AppDispatch } from "../../store/store";
@@ -7,6 +7,7 @@ import { AppDispatch } from "../../store/store";
 export interface UserState {
     user: UserDto,
     error: string,
+    roles: UserRoles
 }
 
 const initialState: UserState = {
@@ -15,6 +16,11 @@ const initialState: UserState = {
         password: "",
     },
     error: "",
+    roles: {
+        isTeacher: false,
+        isStudent: false,
+        isAdmin: false
+    }
 };
 
 export const loginUser = (data: LoginUserDto) => async (dispatch: AppDispatch) => {
@@ -67,6 +73,7 @@ export const getUser = async (dispatch: Dispatch) => {
         return response.data
     } catch (error) {
         console.error("Ошибка при получении данных пользователя", error)
+        dispatch(clearToken());
     }
 }
 
@@ -109,7 +116,7 @@ export const registerUser = (data: RegisterUserDto) => async (dispatch: Dispatch
     }
 }
 
-export const getUserRoles = () => async (dispatch: Dispatch) => {
+export const updateRolesState = () => async (dispatch: Dispatch) => {
     try {
         const response = await axios.get(
             "https://camp-courses.api.kreosoft.space/roles",
@@ -123,12 +130,11 @@ export const getUserRoles = () => async (dispatch: Dispatch) => {
             dispatch(clearToken())
         }
         console.log("Роли получены", response.data)
-        return response.data
+        dispatch(setRoles(response.data))
 
     } catch (error) {
         console.error("Ошибка при получении ролей", error);
         dispatch(clearToken())
-        throw error
     }
 }
 
@@ -140,11 +146,15 @@ const userSlice = createSlice({
     reducers: {
         setUser: (state, action) => {
             state.user = action.payload;
-        }
+        },
+        setRoles: (state, action) => {
+            state.roles = action.payload; 
+        },
     },
 })
 
 export const getUserState = (state: { user: UserState }) => state.user.user;
+export const getUserRolesState = (state: { user: UserState }) => state.user.roles;
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setRoles } = userSlice.actions;
 export default userSlice.reducer;

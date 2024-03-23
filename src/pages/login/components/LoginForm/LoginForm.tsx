@@ -1,4 +1,4 @@
-import { loginUser } from "../../../../modules/user/slice";
+import { loginUser, updateRolesState } from "../../../../modules/user/slice";
 import { routes } from "../../../../common/const/routes";
 import { AppDispatch } from "../../../../store/store";
 import { useState } from "react";
@@ -61,6 +61,7 @@ export const LoginForm = () => {
                 console.error("Login failed:", res);
             } else {
                 console.log("Login success:", res);
+                dispatch(updateRolesState());
                 navigate(routes.root()); 
             }
         } catch (error) {
