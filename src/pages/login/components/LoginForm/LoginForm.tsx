@@ -1,4 +1,3 @@
-import { loginUser, updateRolesState } from "../../../../modules/user/slice";
 import { routes } from "../../../../common/const/routes";
 import { AppDispatch } from "../../../../store/store";
 import { useState } from "react";
@@ -9,6 +8,7 @@ import * as yup from 'yup';
 import { Button, Container, IconButton, TextField, Typography } from "@material-ui/core";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { loginUser } from "src/modules/user/thunk";
 
 const schema = yup.object().shape({  
     email: yup.string()
@@ -61,7 +61,7 @@ export const LoginForm = () => {
                 console.error("Login failed:", res);
             } else {
                 console.log("Login success:", res);
-                dispatch(updateRolesState());
+                
                 navigate(routes.root()); 
             }
         } catch (error) {

@@ -2,10 +2,10 @@ import { Button, Container, Grid, TextField, Typography } from "@material-ui/cor
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form } from "react-router-dom";
-import { getUser, updateUser } from "src/modules/user/slice";
 import { AppDispatch } from "src/store/store";
 import style from "./profile.module.scss";
 import * as yup from 'yup';
+import { getUser, updateUser } from "src/modules/user/thunk";
 
 const schema = yup.object().shape({
     fullName: yup.string()
@@ -35,7 +35,7 @@ export default function useProfileForm() {
     })
     
     const fetchUser = async () => {
-        const response = await dispatch(getUser)
+        const response = await dispatch(getUser())
         setFormData({
             fullName: response.fullName,
             email: response.email,
@@ -44,8 +44,9 @@ export default function useProfileForm() {
     }
 
     useEffect(() => {
-        fetchUser()
-    }, []);
+        fetchUser();
+    }, [dispatch]);
+    
 
     const handleSubmit = async () => {
         try {

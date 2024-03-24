@@ -1,5 +1,4 @@
 import { routes } from "../../../../common/const/routes";
-import { registerUser } from "../../../../modules/user/slice";
 import { AppDispatch } from "../../../../store/store";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -9,6 +8,7 @@ import * as yup from 'yup';
 import { Button, Container, IconButton, TextField, Typography } from "@material-ui/core";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { registerUser, updateRolesState } from "src/modules/user/thunk";
 
 const schema = yup.object().shape({
     fullName: yup.string()
@@ -86,6 +86,7 @@ export const RegistrationForm = () => {
                 console.error("Register failed:", res);
             } else {
                 console.log("Register success:", res);
+                dispatch(updateRolesState());
                 navigate(routes.root()); 
             }
         } catch (error) {

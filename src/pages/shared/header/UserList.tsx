@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { routes } from "src/common/const/routes";
 import { isAuthenticated } from "src/modules/auth/slice";
 import style from "./Header.module.scss";
-import {   getUser, logoutUser } from "src/modules/user/slice"
 import { AppDispatch } from "src/store/store";
 import { useEffect, useState } from "react";
+import { getUser, logoutUser } from "src/modules/user/thunk";
 
 
 
 export const UserList = () => {
     const dispatch: AppDispatch = useDispatch();
-
+    
     const handleLogout = () => {
         dispatch(logoutUser());
       };
@@ -19,12 +19,11 @@ export const UserList = () => {
     const [displayText, setDisplayText] = useState("Профиль");
     const fetchUser = async () => {
         try{
-            const response = await dispatch(getUser)
+            const response = await dispatch(getUser())
             setDisplayText(response.email);
         } catch (error) {
             setDisplayText("Профиль");
         }
-        
     }
 
     useEffect(() => {
@@ -32,7 +31,10 @@ export const UserList = () => {
     }, []);
 
 
-    const isAuth = useSelector(isAuthenticated);
+    const isAuth = useSelector(isAuthenticated());
+    if (isAuth) {
+        fetchUser();
+    }
     if (!isAuth) {
         return (
             <div className={style.links}>
@@ -41,10 +43,10 @@ export const UserList = () => {
             </div>
         );
     }
-        return (
-            <div className={style.links}>
-                <Link to={routes.profile()} className={style.link}>{displayText}</Link>
-                <Link to={routes.root()} className={style.link} onClick={handleLogout}>Выйти</Link>
-            </div>
-        );
+    return (
+        <div className={style.links}>
+            <Link to={routes.profile()} className={style.link}>{displayText}</Link>
+            <Link to={routes.root()} className={style.link} onClick={handleLogout}>Выйти</Link>
+        </div>
+    );
 }
