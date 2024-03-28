@@ -34,5 +34,9 @@ export interface UserRoles {
     isAdmin: boolean,
 }
 
+export interface UserResponse {
+    id: number,
+    fullName: string
+}
 
 

@@ -1,9 +1,11 @@
 import axios from "axios";
 import { clearToken } from "../auth/slice";
 import { Dispatch } from "@reduxjs/toolkit";
-import { GroupDto } from "src/pages/group/GroupsPage";
+import { GroupDto } from "./types";
+import { setGroups } from "./slice";
 
-export const getGroups = () => async (dispatch: Dispatch) =>  {
+
+export const getGroups = () => async (dispatch: Dispatch): Promise<GroupDto[]> =>  {
     try {
         const response = await axios.get(
             "https://camp-courses.api.kreosoft.space/groups",
@@ -15,11 +17,13 @@ export const getGroups = () => async (dispatch: Dispatch) =>  {
         )
         if (response.status === 401 || response.status === 403 || response.status === 400) {
             dispatch(clearToken());
-            return response.data
+            return []
         }
-        return response.data    
+        setGroups(response.data)
+        return response.data as GroupDto[]
     } catch (error) {
         console.error("Ошибка при получении групп", error)
+        return []
     }
 }
 
@@ -81,3 +85,4 @@ export const deleteGroup = (id: number) => async (dispatch: Dispatch) => {
         console.error("Ошибка при удалении группы", error)
     }
 }
+

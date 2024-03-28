@@ -120,3 +120,24 @@ export const updateRolesState = () => async (dispatch: Dispatch) => {
         dispatch(clearToken())
     }
 }
+
+
+export const getUsers = () => async (dispatch: Dispatch) => {
+    try {
+        const response = await axios.get(
+            "https://camp-courses.api.kreosoft.space/users",
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+        if (response.status === 401 || response.status === 403 || response.status === 400) {
+            dispatch(clearToken())
+        }
+        return response.data
+    } catch (error) {
+        console.error("Ошибка при получении пользователей", error);
+        dispatch(clearToken())
+    }
+}
