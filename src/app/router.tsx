@@ -4,7 +4,8 @@ import { AppLayout } from "../pages/AppLayout/AppLayout.tsx";
 import { routes } from "../common/const/routes.ts";
 import { RegistrationPage } from "src/pages/registration/ui/RegistrationPage.tsx";
 import { ProfilePage } from "src/pages/profile/ui/ProfilePage.tsx";
-import { GroupsPage } from "src/pages/group/GroupsPage.tsx";
+import { GroupsPage } from "src/pages/groups/GroupsPage.tsx";
+import { GroupPage } from "src/pages/group/GroupPage.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -15,6 +16,7 @@ export const router = createBrowserRouter([
             { path: routes.registration(), element: <RegistrationPage /> },
             { path: routes.profile(), element: <ProfilePage /> },
             { path: routes.groups(), element: <GroupsPage /> },
+            { path: routes.groups() + "/:id", element: <GroupPage /> },
             { path: routes.myCourses(), element: <div>My courses</div> },
             { path: routes.teachingCourses(), element: <div>Teaching courses</div> },
         ]

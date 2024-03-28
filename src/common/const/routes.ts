@@ -9,5 +9,6 @@ export const routes = {
     groups: () => '/groups',
     myCourses: () => '/courses/my',
     teachingCourses: () => '/courses/teaching',
+    group: (id: number) => `/groups/${id}`,
 }
   

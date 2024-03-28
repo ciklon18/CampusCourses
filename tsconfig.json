@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -28,7 +28,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "src",
+    "./src",
     "**/*.ts",
     "**/*.tsx",
     "**/*.d.ts"

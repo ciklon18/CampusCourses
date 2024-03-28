@@ -1,33 +1,36 @@
 import { Box, Button, Card,  Container, Grid, Typography } from "@material-ui/core"
 import style from "./groups.module.scss"
-import { useDispatch, useSelector } from "react-redux"
-import { getRolesState } from "src/modules/user/slice"
-import { useEffect, useState } from "react"
-import { AppDispatch } from "src/store/store"
+import { useCallback, useEffect, useState } from "react"
 import { createGroup, deleteGroup, editGroup, getGroups } from "src/modules/group/thunk"
 import { updateRolesState } from "src/modules/user/thunk"
 import Swal from 'sweetalert2'
+import { routes } from "src/common/const/routes"
+import { useNavigate } from "react-router-dom"
+import { GroupDto } from "src/modules/group/types"
+import { useAppDispatch, useAppSelector } from "src/store/redux"
 
-export interface GroupDto {
-    id: number,
-    name: string,
-}
 
 export const GroupsPage = () => {
-    const dispatch: AppDispatch = useDispatch();
-    const [groups, setGroups] = useState([]);
-    const roles = useSelector(getRolesState());
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate(); 
+    const [groups, setGroups] = useState<GroupDto[]>([]);
+    const roles = useAppSelector((state) => state.user.roles);
 
-    const fetchGroupsAndSet = async () => {
+    const fetchGroupsAndSet = useCallback(async () => {
         const response = await dispatch(getGroups());
         setGroups(response);
-    };
+    }, [dispatch]);
+
 
     useEffect(() => {
         fetchGroupsAndSet();
         dispatch(updateRolesState());
-    }, [dispatch]);
+    }, [dispatch, fetchGroupsAndSet]);
 
+    const handleGroupClick = (id: number) => {
+        navigate(routes.group(id));
+    };
+    
     const handleCreateGroup = async () => {
         const result = await showInputSwal('Введите название новой группы');
         if (result) {
@@ -104,20 +107,28 @@ export const GroupsPage = () => {
                 <Card key={group.id} className={style.cardContainer}>
                     <Grid container alignItems="center">
                         {roles && roles.isAdmin ? (
-                            <Grid item xs={12} sm={7}> 
-                                <Typography variant="subtitle1" className={style.cardTitle}>
+                            <Grid item xs={12} sm={9}> 
+                                <Typography 
+                                variant="subtitle1" 
+                                className={style.cardTitle} 
+                                onClick={() => handleGroupClick(group.id)}
+                                style={{ cursor: 'pointer' }}>
                                     {group.name}
                                 </Typography>
                             </Grid>
                         ) : (
                             <Grid item xs={12}> 
-                                <Typography variant="subtitle1" className={style.cardTitle}>
+                                <Typography 
+                                variant="subtitle1" 
+                                className={style.cardTitle} 
+                                onClick={() => handleGroupClick(group.id)}
+                                style={{ cursor: 'pointer' }}>
                                     {group.name}
                                 </Typography>
                             </Grid>
                         )}
                         {roles && roles.isAdmin && (
-                        <Grid item xs={12} sm={5}> 
+                        <Grid item xs={12} sm={3}> 
                             <Box className={style.buttonContainer}>
                                 <Button 
                                     size="medium" 
