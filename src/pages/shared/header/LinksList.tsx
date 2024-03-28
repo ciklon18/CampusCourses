@@ -1,17 +1,14 @@
 import { Link } from "react-router-dom";
 import { routes } from "src/common/const/routes";
 import style from "./Header.module.scss";
-import { getRolesState } from "src/modules/user/slice";
 import { useEffect } from "react";
-import { AppDispatch } from "src/store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { isAuthenticated } from "src/modules/auth/slice";
 import { updateRolesState } from "src/modules/user/thunk";
+import { useAppDispatch, useAppSelector } from "src/store/redux";
 
 export const LinksList = () => {
-    const dispatch: AppDispatch = useDispatch();
-    const roles = useSelector(getRolesState())
-    const isAuth = useSelector(isAuthenticated());
+    const dispatch = useAppDispatch();
+    const roles = useAppSelector((state) => state.user.roles);
+    const isAuth = useAppSelector((state) => state.auth.isAuth);
 
     useEffect(() => {
         dispatch(updateRolesState());

@@ -37,5 +37,3 @@ const userSlice = createSlice({
 export default userSlice.reducer;
 export const { setUser, setRoles } = userSlice.actions;
 
-export const getUserState = () => (state: { user: UserState }) => state.user.user;
-export const getRolesState = () => (state: { user: UserState }) => state.user.roles;

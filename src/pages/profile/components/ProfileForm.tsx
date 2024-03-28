@@ -1,11 +1,10 @@
 import { Button, Container, Grid, TextField, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
 import { Form } from "react-router-dom";
-import { AppDispatch } from "src/store/store";
 import style from "./profile.module.scss";
 import * as yup from 'yup';
 import { getUser, updateUser } from "src/modules/user/thunk";
+import { useAppDispatch } from "src/store/redux";
 
 const schema = yup.object().shape({
     fullName: yup.string()
@@ -21,7 +20,7 @@ const schema = yup.object().shape({
 
 
 export default function useProfileForm() {
-    const dispatch: AppDispatch = useDispatch()
+    const dispatch = useAppDispatch();
 
     const [formData, setFormData] = useState({
         fullName: "",
@@ -34,18 +33,20 @@ export default function useProfileForm() {
         birthDate: "",
     })
     
-    const fetchUser = async () => {
+
+
+    const fetchUser = useCallback(async () => {
         const response = await dispatch(getUser())
         setFormData({
             fullName: response.fullName,
             email: response.email,
             birthDate: response.birthDate.split('T')[0]
         })
-    }
+    }, [dispatch]);
 
     useEffect(() => {
         fetchUser();
-    }, [dispatch]);
+    }, [fetchUser]);
     
 
     const handleSubmit = async () => {

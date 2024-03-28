@@ -1,7 +1,5 @@
 import { routes } from "../../../../common/const/routes";
-import { AppDispatch } from "../../../../store/store";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate, Link, Form } from "react-router-dom";
 import style from "./registration.module.scss";
 import * as yup from 'yup';
@@ -9,6 +7,7 @@ import { Button, Container, IconButton, TextField, Typography } from "@material-
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { registerUser, updateRolesState } from "src/modules/user/thunk";
+import { useAppDispatch } from "src/store/redux";
 
 const schema = yup.object().shape({
     fullName: yup.string()
@@ -45,7 +44,7 @@ const schema = yup.object().shape({
 
 export const RegistrationForm = () => {
     const navigate = useNavigate();
-    const dispatch: AppDispatch = useDispatch()
+    const dispatch = useAppDispatch();
 
     const [formData, setFormData] = useState({
         fullName: "",

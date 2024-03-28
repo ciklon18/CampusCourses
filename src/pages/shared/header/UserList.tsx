@@ -1,16 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { routes } from "src/common/const/routes";
-import { isAuthenticated } from "src/modules/auth/slice";
 import style from "./Header.module.scss";
-import { AppDispatch } from "src/store/store";
 import { useEffect, useState } from "react";
 import { getUser, logoutUser } from "src/modules/user/thunk";
+import { useAppDispatch, useAppSelector } from "src/store/redux";
 
 
 
 export const UserList = () => {
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch = useAppDispatch();
     
     const handleLogout = () => {
         dispatch(logoutUser());
@@ -31,7 +29,7 @@ export const UserList = () => {
     }, []);
 
 
-    const isAuth = useSelector(isAuthenticated());
+    const isAuth = useAppSelector((state) => state.auth.isAuth);
     if (isAuth) {
         fetchUser();
     }

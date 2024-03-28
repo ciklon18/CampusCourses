@@ -1,11 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../store/store";
 
 interface AuthState {
     token: string | null;
     isAuth: boolean;
 }
-
 
 const initialState: AuthState = {
     token: localStorage.getItem("token"),
@@ -32,4 +30,3 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 export const { setToken, clearToken } = authSlice.actions;
-export const isAuthenticated = () => (state: RootState) => state.auth.isAuth;
