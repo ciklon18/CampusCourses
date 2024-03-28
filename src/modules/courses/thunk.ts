@@ -44,3 +44,44 @@ export const createCource = (id: string, request: CourceCreationDto) => async (d
         console.error("Ошибка при создании курса", error)
     }
 }
+
+export const getMyCourses = () => async (dispatch: Dispatch) => {
+    try {
+        const response = await axios.get(
+            `https://camp-courses.api.kreosoft.space/courses/my`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+        if (response.status === 401 || response.status === 403 || response.status === 400) {
+            dispatch(clearToken());
+            return response.data
+        } 
+        return response.data
+    } catch (error) {
+        console.error("Ошибка при получении списка моих курсов", error)
+    }
+}
+
+
+export const getTeachingCourses = () => async (dispatch: Dispatch) => {
+    try {
+        const response = await axios.get(
+            `https://camp-courses.api.kreosoft.space/courses/teaching`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+        if (response.status === 401 || response.status === 403 || response.status === 400) {
+            dispatch(clearToken());
+            return response.data
+        } 
+        return response.data
+    } catch (error) {
+        console.error("Ошибка при получении списка преподаваемых курсов", error)
+    }
+}

@@ -17,3 +17,10 @@ export interface CourceCreationDto {
     annotations: string,
     mainTeacherId: string,
 }
+
+
+export enum CourseType {
+    GROUP,
+    MY,
+    TEACHING
+}

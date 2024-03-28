@@ -5,7 +5,9 @@ import { routes } from "../common/const/routes.ts";
 import { RegistrationPage } from "src/pages/registration/ui/RegistrationPage.tsx";
 import { ProfilePage } from "src/pages/profile/ui/ProfilePage.tsx";
 import { GroupsPage } from "src/pages/groups/GroupsPage.tsx";
-import { GroupPage } from "src/pages/group/GroupPage.tsx";
+import { GroupCoursesPage } from "src/pages/courses/group/GroupCoursesPage.tsx";
+import { MyCoursesPage } from "src/pages/courses/my/MyCoursesPage.tsx";
+import { TeachingCoursesPage } from "src/pages/courses/teaching/TeachingCoursesPage.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -16,9 +18,9 @@ export const router = createBrowserRouter([
             { path: routes.registration(), element: <RegistrationPage /> },
             { path: routes.profile(), element: <ProfilePage /> },
             { path: routes.groups(), element: <GroupsPage /> },
-            { path: routes.groups() + "/:id", element: <GroupPage /> },
-            { path: routes.myCourses(), element: <div>My courses</div> },
-            { path: routes.teachingCourses(), element: <div>Teaching courses</div> },
+            { path: routes.groups() + "/:id", element: <GroupCoursesPage /> },
+            { path: routes.myCourses(), element: <MyCoursesPage /> },
+            { path: routes.teachingCourses(), element: <TeachingCoursesPage /> },
         ]
     }
 ])

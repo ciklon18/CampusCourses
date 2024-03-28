@@ -1,11 +1,10 @@
 import { Box, Button, Card, Container, Typography } from "@material-ui/core"
-import style from "./group.module.scss"
+import style from "./courses.module.scss"
 import { useParams } from "react-router-dom"
 import { useCallback, useEffect, useState } from "react"
-import { CourseDto } from "src/modules/courses/types"
-import { getCourses } from "src/modules/courses/thunk"
-import { useAppDispatch } from "src/store/redux"
-import { GroupDto } from "src/modules/group/types"
+import { CourseDto, CourseType } from "src/modules/courses/types"
+import { getCourses, getMyCourses, getTeachingCourses } from "src/modules/courses/thunk"
+import { useAppDispatch, useAppSelector } from "src/store/redux"
 import { getGroups } from "src/modules/group/thunk"
 import { CourseFormDialog } from "./component/CourseFormDialog"
 
@@ -43,25 +42,66 @@ const getStatusColorByValue = (value: string) => {
             return "#0d91fe";
     }
 }
-
-export const GroupPage = () => {
+export const CoursesPage = ({ courseType }: { courseType: CourseType }) => {
     const { id } = useParams<{ id?: string }>();
     const dispatch = useAppDispatch();
 
-    const [group, setGroup] = useState<GroupDto>();
+    const isGroup = courseType === CourseType.GROUP;
+    const isAdmin = useAppSelector((state) => state.user.roles.isAdmin);
+
     const [courses, setCourses] = useState<CourseDto[]>([]);
     const [open, setOpen] = useState(false);
 
+    const [titleValue, setTitleValue] = useState<string>("");
+
     const fetchCourses = useCallback(async () => {
-        const response = await dispatch(getCourses(id || ""));
+        let response: CourseDto[] = [];
+        switch (courseType) {
+          case CourseType.GROUP:
+            response = await dispatch(getCourses(id || ""));
+            break;
+          case CourseType.MY:
+            response = await dispatch(getMyCourses());
+            break;
+          case CourseType.TEACHING:
+            response = await dispatch(getTeachingCourses());
+            break;
+          default:
+            break;
+        }
         setCourses(response);
+      }, [dispatch, id, courseType]);
+
+
+    const fetchName = useCallback(async () => {
+        switch (courseType) {
+            case CourseType.GROUP:
+                const response = await dispatch(getGroups());
+                const group = response.find((group) => group.id.toString() === id);
+                setTitleValue((group != null) ? "Курсы группы - " + group.name : "Курсы группы");
+                break;
+            case CourseType.MY:
+                setTitleValue("Мои курсы");
+                break;
+            case CourseType.TEACHING:
+                setTitleValue("Преподаваемые курсы");
+                break;
+            default:
+                break;
+            }
     }, [dispatch, id]);
 
-    const fetchGroup = useCallback(async () => {
-        const response = await dispatch(getGroups());
-        setGroup(response.find((group) => group.id.toString() === id));
-    }, [dispatch, id]);
 
+    useEffect(() => {
+        fetchName();
+    }, [fetchName]);
+
+    useEffect(() => {
+        fetchCourses();
+    }, [fetchCourses]);
+
+
+    
     const handleOpen = () => {
         setOpen(true);
     };
@@ -70,15 +110,6 @@ export const GroupPage = () => {
         setOpen(false);
         await fetchCourses();
     };
-
-    useEffect(() => {
-        fetchGroup();
-    }, [fetchGroup]);
-
-    useEffect(() => {
-        fetchCourses();
-    }, [fetchCourses]);
-
 
     return (
         <Container
@@ -91,15 +122,16 @@ export const GroupPage = () => {
             <Typography
                 variant="h4"
                 className={style.title}>
-                Группа - {group?.name}
+                {titleValue}
             </Typography>
-            <Button
-                variant="contained"
-                color="primary"
-                className={style.button}
-                onClick={handleOpen}>
-                СОЗДАТЬ КУРС
-            </Button>
+            {isAdmin && isGroup &&
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={style.button}
+                    onClick={handleOpen}>
+                    СОЗДАТЬ КУРС
+                </Button>}
             <Container className={style.courses}>
                 {courses.map((course) => (
                     <Card className={style.cardContainer} key={course.id}>
@@ -141,10 +173,12 @@ export const GroupPage = () => {
 
                 ))}
             </Container>
-            <CourseFormDialog
+            {isGroup && (
+                <CourseFormDialog
                 open={open}
                 onClose={handleClose}
                 id={id || ""} />
+            )}
         </Container>
     );
 }

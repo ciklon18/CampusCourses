@@ -1,5 +1,5 @@
 import { Box, Button, FormControl, FormControlLabel, FormLabel, MenuItem, Modal, Radio, RadioGroup, TextField, Typography } from "@material-ui/core";
-import style from "../group.module.scss";
+import style from "../courses.module.scss";
 import CloseIcon from '@mui/icons-material/Close';
 import { useFormik } from "formik";
 import { createCource } from "src/modules/courses/thunk";
