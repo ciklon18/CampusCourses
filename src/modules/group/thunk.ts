@@ -20,7 +20,7 @@ export const getGroups = () => async (dispatch: Dispatch): Promise<GroupDto[]> =
             return []
         }
         setGroups(response.data)
-        return response.data as GroupDto[]
+                return response.data as GroupDto[]
     } catch (error) {
         console.error("Ошибка при получении групп", error)
         return []

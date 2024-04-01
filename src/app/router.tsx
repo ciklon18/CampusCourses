@@ -8,6 +8,7 @@ import { GroupsPage } from "src/pages/groups/GroupsPage.tsx";
 import { GroupCoursesPage } from "src/pages/courses/group/GroupCoursesPage.tsx";
 import { MyCoursesPage } from "src/pages/courses/my/MyCoursesPage.tsx";
 import { TeachingCoursesPage } from "src/pages/courses/teaching/TeachingCoursesPage.tsx";
+import { CoursePage } from "src/pages/course/CoursePage.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -21,6 +22,7 @@ export const router = createBrowserRouter([
             { path: routes.groups() + "/:id", element: <GroupCoursesPage /> },
             { path: routes.myCourses(), element: <MyCoursesPage /> },
             { path: routes.teachingCourses(), element: <TeachingCoursesPage /> },
+            { path: routes.courses() + "/:id", element: <CoursePage />}
         ]
     }
 ])

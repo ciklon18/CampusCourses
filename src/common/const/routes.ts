@@ -7,8 +7,10 @@ export const routes = {
     registration: () => '/registration',
     profile: () => '/profile',
     groups: () => '/groups',
+    courses: () => '/courses',
     myCourses: () => '/courses/my',
     teachingCourses: () => '/courses/teaching',
     group: (id: number) => `/groups/${id}`,
+    course: (id: number) => `/courses/${id}`,
 }
   

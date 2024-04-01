@@ -1,7 +1,7 @@
 import { clearToken, setToken } from "../auth/slice";
 import { AppDispatch } from "../../store/store";
 import { Dispatch } from "@reduxjs/toolkit";
-import { LoginUserDto,  RegisterUserDto, ProfileDto } from "../../types/types";
+import { LoginUserDto,  RegisterUserDto, ProfileDto, UserResponse } from "../../types/types";
 import { setRoles, setUser } from "./slice";
 import axios from "axios";
 
@@ -39,7 +39,7 @@ export const logoutUser = () => async (dispatch: Dispatch) => {
     }
 }
 
-export const getUser = () => async (dispatch: Dispatch) => {
+export const getUser = () => async (dispatch: Dispatch): Promise<ProfileDto | null> => {
     try {
         const response = await axios.get(
             "https://camp-courses.api.kreosoft.space/profile", 
@@ -51,13 +51,15 @@ export const getUser = () => async (dispatch: Dispatch) => {
         );
         if (response.status === 401 || response.status === 403 || response.status === 400) {
             dispatch(clearToken());
-            return response.data
+            return null
         }
-        return response.data
+        return response.data as ProfileDto
     } catch (error) {
         console.error("Ошибка при получении данных пользователя", error)
         dispatch(clearToken());
+        return null
     }
+
 }
 
 export const updateUser = (data: ProfileDto) => async (dispatch: Dispatch) => {
@@ -122,7 +124,7 @@ export const updateRolesState = () => async (dispatch: Dispatch) => {
 }
 
 
-export const getUsers = () => async (dispatch: Dispatch) => {
+export const getUsers = () => async (dispatch: Dispatch): Promise<UserResponse[]> => {
     try {
         const response = await axios.get(
             "https://camp-courses.api.kreosoft.space/users",
@@ -132,12 +134,13 @@ export const getUsers = () => async (dispatch: Dispatch) => {
                 },
             }
         );
-        if (response.status === 401 || response.status === 403 || response.status === 400) {
+        if (response.status === 401 || response.status === 400) {
             dispatch(clearToken())
+            return []
         }
-        return response.data
+        return response.data as UserResponse[]
     } catch (error) {
         console.error("Ошибка при получении пользователей", error);
-        dispatch(clearToken())
+        return []
     }
 }
