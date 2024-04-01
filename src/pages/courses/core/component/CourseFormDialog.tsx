@@ -55,7 +55,7 @@ const toolbarOptions = [
     [{ 'color': [] }, { 'background': [] }],
     [{ 'align': [] }],
     ['clean'],
-    ['code'],                                         
+    ['code'],
 ];
 
 export const CourseFormDialog = ({ open, onClose, id }: { open: boolean, onClose: () => void, id: string }) => {
@@ -65,10 +65,8 @@ export const CourseFormDialog = ({ open, onClose, id }: { open: boolean, onClose
     useEffect(() => {
         const fetchUsers = async () => {
             const response = await dispatch(getUsers());
-            if (!response.error) {
-                setUsers(response);
-                console.log("Пользователи получены", response)
-            }
+            setUsers(response);
+            console.log("Пользователи получены", response)
         }
         fetchUsers();
     }, [dispatch, open]);
@@ -158,8 +156,8 @@ export const CourseFormDialog = ({ open, onClose, id }: { open: boolean, onClose
                             onChange={(value) => formik.setFieldValue("annotations", value)}
                             modules={{ toolbar: toolbarOptions}}
                             className={style.quillContainer}
-                        >                           
-                        </ReactQuill> 
+                        >
+                        </ReactQuill>
                         <TextField
                             label="Основной преподаватель курса"
                             name="mainTeacherId"

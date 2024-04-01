@@ -37,6 +37,9 @@ export default function useProfileForm() {
 
     const fetchUser = useCallback(async () => {
         const response = await dispatch(getUser())
+        if (!response) {
+            return
+        }
         setFormData({
             fullName: response.fullName,
             email: response.email,

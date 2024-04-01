@@ -35,8 +35,9 @@ export interface UserRoles {
 }
 
 export interface UserResponse {
-    id: number,
+    id: string,
     fullName: string
 }
 
 
+ 

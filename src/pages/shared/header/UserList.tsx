@@ -18,6 +18,10 @@ export const UserList = () => {
     const fetchUser = async () => {
         try{
             const response = await dispatch(getUser())
+            if (!response) {
+                setDisplayText("Профиль");
+                return;
+            }
             setDisplayText(response.email);
         } catch (error) {
             setDisplayText("Профиль");
