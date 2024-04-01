@@ -1,51 +1,19 @@
 import { Box, Button, Card, Container, Typography } from "@material-ui/core"
 import style from "./courses.module.scss"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useCallback, useEffect, useState } from "react"
 import { CourseDto, CourseType } from "src/modules/courses/types"
 import { getCourses, getMyCourses, getTeachingCourses } from "src/modules/courses/thunk"
 import { useAppDispatch, useAppSelector } from "src/store/redux"
 import { getGroups } from "src/modules/group/thunk"
 import { CourseFormDialog } from "./component/CourseFormDialog"
+import { getStatusByValue, getStatusColorByValue, getSemesterByValue } from "src/common/utils/DataUtil"
 
-const getSemesterByValue = (value: string) => {
-    switch (value) {
-        case "Spring":
-            return "Весенний";
-        case "Autumn":
-            return "Осенний";
-    }
-}
-
-const getStatusByValue = (value: string) => {
-    switch (value) {
-        case "Created":
-            return "Создан";
-        case "Closed":
-            return "Закрыт";
-        case "OpenForAssigning":
-            return "Открыт для записи";
-        case "InProcess":
-            return "В процессе обучения";
-    }
-}
-
-const getStatusColorByValue = (value: string) => {
-    switch (value) {
-        case "Created":
-            return "#6d7583";
-        case "Closed":
-            return "#dc3545";
-        case "OpenForAssigning":
-            return "#309261";
-        case "InProcess":
-            return "#0d91fe";
-    }
-}
 export const CoursesPage = ({ courseType }: { courseType: CourseType }) => {
     const { id } = useParams<{ id?: string }>();
     const dispatch = useAppDispatch();
-
+    const navigation = useNavigate();
+    
     const isGroup = courseType === CourseType.GROUP;
     const isAdmin = useAppSelector((state) => state.user.roles.isAdmin);
 
@@ -69,7 +37,7 @@ export const CoursesPage = ({ courseType }: { courseType: CourseType }) => {
           default:
             break;
         }
-        setCourses(response);
+        setCourses(response || []);
       }, [dispatch, id, courseType]);
 
 
@@ -111,6 +79,10 @@ export const CoursesPage = ({ courseType }: { courseType: CourseType }) => {
         await fetchCourses();
     };
 
+    const handleCardClick = (courseId: string) => {
+        navigation(`/courses/${courseId}`);
+    }
+
     return (
         <Container
             className={style.container}
@@ -134,7 +106,7 @@ export const CoursesPage = ({ courseType }: { courseType: CourseType }) => {
                 </Button>}
             <Container className={style.courses}>
                 {courses.map((course) => (
-                    <Card className={style.cardContainer} key={course.id}>
+                    <Card className={style.cardContainer} key={course.id} onClick={() => {handleCardClick(course.id.toString())}}>
                         <Box className={style.cardContent}>
                             <Typography
                                 variant="h6"
