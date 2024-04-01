@@ -1,0 +1,102 @@
+
+.modalWindow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50%;
+    min-width: 300px;
+    transform: translate(-50%, -50%);
+    padding: 24px;
+    box-shadow: 24px 24px 24px rgba(0, 0, 0, 0.5);
+    background-color: #ffffff;
+    overflow-y: auto;
+    max-height: 75%;
+  
+    .modalHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+  
+      .modalTitle {
+        font-size: 2rem;
+        color: #061525;
+      }
+  
+      .closeIcon {
+        font-size: 2rem;
+        color: #899097;
+      }
+    }
+  
+    .modalForm {
+      display: flex;
+      flex-direction: column;
+      gap: 20px; 
+      
+      .modalHeader {
+        display: flex;
+        .modalTitle {
+          font-size: 1.5rem;
+          color: #061525;
+        }
+      }
+  
+      .menuItem {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        color:#000000;
+      }
+  
+      .modalInput {
+        width: 100%;
+      }
+      .radioContainer {
+        display: flex;
+        flex-direction: row;
+        .radioItem {
+          color:#000000;
+        }
+      }
+    
+      .modalButtonContainer {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        gap: 12px;
+  
+        .submitButton {
+          background-color: #007bff;
+          color: #ffffff;
+          padding: 8px;
+          border-radius: 4px;
+          border: none;
+          margin-top: 16px;
+          justify-content: center;
+        }
+        .cancelButton {
+          background-color: #899097;
+          color: #ffffff;
+          padding: 8px;
+          border-radius: 4px;
+          border: none;
+          margin-top: 16px;
+          justify-content: center;
+        }
+      }
+  
+      .quillContainer {
+        display: flex;
+        flex-direction: column;
+        color: #000000;
+      }
+      .quillScrollContainer {
+        height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+      }
+    }
+  }
+  
