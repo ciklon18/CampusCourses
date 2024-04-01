@@ -11,7 +11,10 @@ export const LinksList = () => {
     const isAuth = useAppSelector((state) => state.auth.isAuth);
 
     useEffect(() => {
-        dispatch(updateRolesState());
+        const fetchRoles = async () => {
+            await dispatch(updateRolesState());
+        }
+        fetchRoles();
     }, [dispatch]);
     return (
         (isAuth) && <div className={style.links}>

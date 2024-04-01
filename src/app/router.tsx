@@ -9,12 +9,14 @@ import { GroupCoursesPage } from "src/pages/courses/group/GroupCoursesPage.tsx";
 import { MyCoursesPage } from "src/pages/courses/my/MyCoursesPage.tsx";
 import { TeachingCoursesPage } from "src/pages/courses/teaching/TeachingCoursesPage.tsx";
 import { CoursePage } from "src/pages/course/CoursePage.tsx";
+import { RootPage } from "src/pages/root/RootPage.tsx";
 
 export const router = createBrowserRouter([
     {
         path: routes.root(),
         element: <AppLayout />,
         children: [
+            { path: routes.root(), element: <RootPage />},
             { path: routes.login(), element: <LoginPage /> },
             { path: routes.registration(), element: <RegistrationPage /> },
             { path: routes.profile(), element: <ProfilePage /> },

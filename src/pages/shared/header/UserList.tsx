@@ -10,9 +10,9 @@ import { useAppDispatch, useAppSelector } from "src/store/redux";
 export const UserList = () => {
     const dispatch = useAppDispatch();
     
-    const handleLogout = () => {
-        dispatch(logoutUser());
-      };
+    const handleLogout = async() => {
+        await dispatch(logoutUser());
+    };
 
     const [displayText, setDisplayText] = useState("Профиль");
     const fetchUser = async () => {
