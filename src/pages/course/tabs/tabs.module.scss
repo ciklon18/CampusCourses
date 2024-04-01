@@ -1,0 +1,196 @@
+.tabsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+    overflow: auto;
+
+    .tab {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #ffc107;
+        color: #000000;
+
+        &:hover {
+            background-color: #f5de99;
+            color: #000000;
+        }
+    }
+
+    .tabName {
+        font-size: 1.2rem;
+        word-break: break-all;
+    }
+}
+
+.tabPanel {
+    width: 90%;
+
+    
+    .createNotificationButton {
+        background-color: #007bff;
+        color: #ffffff;
+        align-items: flex-start;
+        margin-bottom: 8px;
+
+        &:hover {
+            background-color: #5e9fe4;
+            color: #000000;
+        }
+    }
+
+    .notificationCard {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        color: #000000;
+        margin-bottom: 8px;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .notificationTitle {
+            font-size: 1rem;
+            word-break: break-all;
+            color: #061525;
+        }
+    }
+
+    .importantNotificationCard {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        background-color: #f8d7da;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .importantNotificationTitle {
+            font-size: 1rem;
+            word-break: break-all;
+            color: #933840;
+        }
+    }
+
+    .mainText {
+        font-size: 1.1rem;
+        word-break: break-all;
+        color: #061525;
+        font-weight: 400;
+    }
+
+    .secondText {
+        color: #7e7e7e;
+    }
+
+    .studentCard {
+        display: flex;
+        margin-top: 6px;
+        padding: 10px;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .studentStatus {
+            padding-left: 5px;
+        }
+
+        .studentData {
+            .studentStatusText {
+                display: inline-flex;
+            }
+        }
+
+
+        .studentCertificationBlock {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+
+            .studentCertificationText {
+                padding-right: 5px;
+            }
+
+        }
+
+        .studentButtonsBlock {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+
+            .studentAcceptButton {
+                color: #ffffff;
+                padding: 10px;
+                margin-right: 5px;
+
+                &:hover {
+                    color: #ffffff;
+                    transform: translateY(-5px);
+                }
+            }
+
+            .studentDeclineButton {
+                color: #ffffff;
+                padding: 10px;
+
+                &:hover {
+                    color: #ffffff;
+                    transform: translateY(-5px);
+                }
+            }
+        }
+    }
+    .teacherButton {
+        margin-bottom: 6px;
+    }
+
+    .teacherCard {
+        display: flex;
+        margin-top: 6px;
+        padding: 10px;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .teacherStatus {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .chipStatus {
+                margin-left: 5px;
+            }
+        }
+    }
+}
+
+
+.tabPanelText {
+    font-size: 1.5rem;
+    word-break: break-all;
+    color: #061525;
+    width: 100%;
+    text-align: left;
+}
